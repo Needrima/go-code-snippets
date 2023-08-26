@@ -1,14 +1,14 @@
 package routes
 
 import (
-	httphandler "go-code-snippets/internal/adapters/httpadapter"
+	httpadapter "go-code-snippets/internal/adapters/http-adapter"
 	"go-code-snippets/internal/core/middlewares"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func SetupRouter(handler *httphandler.Handler) *chi.Mux {
+func SetupRouter(handler *httpadapter.Handler) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)

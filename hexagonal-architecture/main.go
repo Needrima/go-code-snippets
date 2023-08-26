@@ -2,7 +2,7 @@ package main
 
 import (
 	databaseadapter "go-code-snippets/internal/adapters/database-adapter"
-	"go-code-snippets/internal/adapters/httpadapter"
+	httpadapter "go-code-snippets/internal/adapters/http-adapter"
 	"go-code-snippets/internal/adapters/routes"
 	"go-code-snippets/internal/core/helper"
 	"go-code-snippets/internal/core/processor"
@@ -14,12 +14,11 @@ import (
 func main() {
 	helper.LoadEnv("./app.env")
 	dbCollection := databaseadapter.ConnectToDB()
+	databaseAdapter := databaseadapter.NewDBAdapter(dbCollection)
+	processor := processor.NewProcessor(databaseAdapter)
+	httpAdapter := httpadapter.NewHandler(processor)
 
-	databaseadapter := databaseadapter.NewDBAdapter(dbCollection)
-	processor := processor.NewProcessor(databaseadapter)
-	httpadapter := httpadapter.NewHandler(processor)
-
-	router := routes.SetupRouter(httpadapter)
+	router := routes.SetupRouter(httpAdapter)
 
 	port := os.Getenv("PORT")
 	log.Printf("listening on port: %s............\n", port)
