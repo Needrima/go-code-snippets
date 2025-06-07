@@ -25,6 +25,8 @@ func main() {
 	cache := cache.New()
 	pubsub := pubsub.New()
 
+	fmt.Println("Low-Budget-Redis fired up—running lean and mean!🚀🔥💪")
+
 	for {
 		// Accept incoming connections
 		conn, err := li.Accept()
