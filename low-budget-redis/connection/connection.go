@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"low-budget-redis/cache"
+	"low-budget-redis/database"
 	pubsub "low-budget-redis/pub-sub"
 	"net"
 	"strings"
+	"sync"
 )
 
 const (
@@ -16,7 +18,9 @@ const (
 	SUBSCRIBE = "SUBSCRIBE"
 )
 
-func HandleConn(conn net.Conn, cache *cache.MemCache, pubsub *pubsub.PubSub) {
+func HandleConn(conn net.Conn, cache *cache.Cache, pubsub *pubsub.PubSub, database *database.Database) {
+	var mu sync.Mutex
+
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		text := scanner.Text()
@@ -36,11 +40,17 @@ func HandleConn(conn net.Conn, cache *cache.MemCache, pubsub *pubsub.PubSub) {
 
 		switch cmd {
 		case SET:
-			if len(fields) != 3 {
+			if len(fields) < 3 {
 				fmt.Fprintf(conn, "invalid number of arguments %v\n", text)
 				continue
 			}
-			key, value := fields[1], fields[2]
+			key, value := fields[1], strings.Join(fields[2:], " ")
+
+			mu.Lock()
+			command := fmt.Sprintf("%s %s %s", cmd, key, value)
+			database.Insert(command)
+			mu.Unlock()
+
 			cache.Set(key, value)
 
 		case GET:

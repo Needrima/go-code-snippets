@@ -5,6 +5,7 @@ import (
 	"log"
 	"low-budget-redis/cache"
 	"low-budget-redis/connection"
+	"low-budget-redis/database"
 	pubsub "low-budget-redis/pub-sub"
 	"net"
 )
@@ -25,6 +26,9 @@ func main() {
 	cache := cache.New()
 	pubsub := pubsub.New()
 
+	database:= database.InitializeFileStorage()
+	database.LoadUpDataHistoryIntoCache(cache)
+
 	fmt.Println("Low-Budget-Redis fired up—running lean and mean!🚀🔥💪")
 
 	for {
@@ -35,6 +39,6 @@ func main() {
 			continue
 		}
 		fmt.Println("New connection from", conn.RemoteAddr())
-		go connection.HandleConn(conn, cache, pubsub)
+		go connection.HandleConn(conn, cache, pubsub, database)
 	}
 }
