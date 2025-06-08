@@ -10,13 +10,6 @@ import (
 	"net"
 )
 
-const (
-	SET       = "SET"
-	GET       = "GET"
-	PUBLISH   = "PUBLISH"
-	SUBSCRIBE = "SUBSCRIBE"
-)
-
 func main() {
 	li, err := net.Listen("tcp", ":3000")
 	if err != nil {
