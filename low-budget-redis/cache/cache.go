@@ -3,7 +3,7 @@ package cache
 import "sync"
 
 type Cache struct {
-	mu sync.Mutex
+	mu     sync.Mutex
 	memory map[string]string
 }
 

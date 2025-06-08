@@ -79,7 +79,7 @@ func HandleConn(conn net.Conn, cache *cache.Cache, pubsub *pubsub.PubSub, databa
 				fmt.Fprintf(conn, "invalid number of arguments %v\n", text)
 				continue
 			}
-			channelName, value := fields[1], strings.Join(fields[2:]," ")
+			channelName, value := fields[1], strings.Join(fields[2:], " ")
 			pubsub.Publish(channelName, value)
 
 		default:

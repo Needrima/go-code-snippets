@@ -26,7 +26,7 @@ func main() {
 	cache := cache.New()
 	pubsub := pubsub.New()
 
-	database:= database.InitializeFileStorage()
+	database := database.InitializeFileStorage()
 	database.LoadUpDataHistoryIntoCache(cache)
 
 	fmt.Println("Low-Budget-Redis fired up—running lean and mean!🚀🔥💪")
