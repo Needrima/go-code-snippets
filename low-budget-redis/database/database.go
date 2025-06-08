@@ -27,11 +27,11 @@ func(d *Database)LoadUpDataHistoryIntoCache(cache *cache.Cache) {
 		text:= scanner.Text()
 		fields := strings.Fields(text)
 
-		key, value := fields[1], fields[2]
+		key, value := fields[1], strings.Join(fields[2:], " ")
 		cache.Set(key, value)
 	}
 }
 
 func(d *Database)Insert(command string) {
-	d.file.WriteString(command)
+	d.file.WriteString(command+"\n")
 }

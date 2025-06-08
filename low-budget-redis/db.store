@@ -1,1 +1,2 @@
-SET foo bar
+SET greet Hello world
+SET response Hi
