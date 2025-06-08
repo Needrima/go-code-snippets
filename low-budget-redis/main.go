@@ -13,7 +13,7 @@ import (
 func main() {
 	li, err := net.Listen("tcp", ":3000")
 	if err != nil {
-		log.Fatal("could not connect to redis:", err)
+		log.Fatal("could not connect to LBR:", err)
 	}
 
 	cache := cache.New()
@@ -22,7 +22,7 @@ func main() {
 	database := database.InitializeFileStorage()
 	database.LoadUpDataHistoryIntoCache(cache)
 
-	fmt.Println("Low-Budget-Redis fired up—running lean and mean!🚀🔥💪")
+	fmt.Println("LBR fired up—running lean and mean!🚀🔥💪")
 
 	for {
 		// Accept incoming connections
