@@ -46,8 +46,8 @@ func (c *Client) Get(key string) string {
 	return <-responseChan
 }
 
-func (c *Client) Publish(channelName, value string) {
-	command := fmt.Sprintf("%s %s %s", PUBLISH, channelName, value)
+func (c *Client) Publish(channelName, message string) {
+	command := fmt.Sprintf("%s %s %s", PUBLISH, channelName, message)
 	fmt.Fprintln(c.conn, command)
 }
 
