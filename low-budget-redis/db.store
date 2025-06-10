@@ -1,2 +1,10 @@
 SET greet Hello world
 SET response Hi
+SET foo bar
+SET foo baz
+SET foo bar
+SET greeting Hello World
+SET foo bar
+SET greet hello world
+SET greet hello world
+SET foo bar
