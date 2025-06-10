@@ -52,10 +52,17 @@ func (c *Client) Publish(channelName, message string) {
 }
 
 func (c *Client) Subscribe(channelName string) <-chan string {
-	responseChan := make(chan string, 1)
+	responseChan := make(chan string)
 	go func() {
+		 // close the connection to avoid a deadlock if the server shuts down abruptly
+		//  or another error occurs during scanning
+		defer close(responseChan)
 		scanner := bufio.NewScanner(c.conn)
 		for scanner.Scan() {
+			if scanner.Err() != nil {
+				fmt.Println("error reading from message from server:", scanner.Err())
+				return
+			}
 			text := scanner.Text()
 			responseChan <- text
 		}

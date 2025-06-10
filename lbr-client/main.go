@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"lbr-client/client"
 	"log"
 )
@@ -17,10 +17,15 @@ func main() {
 	// value:= client.Get("foo")
 	// fmt.Println(value)
 
-	// messagesChan := client.Subscribe("foo")
-	// for val := range messagesChan{
-	// 	fmt.Println(val)
-	// }
+	messagesChan := client.Subscribe("foo")
+	for {
+		val, ok := <-messagesChan
+		if !ok {
+			fmt.Println("bad pubsub")
+			break
+		}
+		fmt.Println(val)
+	}
 
 	// client.Publish("foo", "it's go time") // open another connection with telnet in your terminal
 }
